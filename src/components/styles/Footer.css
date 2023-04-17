@@ -1,0 +1,16 @@
+.footer-container{
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 12px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin-top: 1rem;
+
+}
+.heart{
+    color: #8255D6;
+    font-size: 15px;
+}

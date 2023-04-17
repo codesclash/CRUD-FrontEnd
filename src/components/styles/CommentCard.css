@@ -1,0 +1,52 @@
+.del{
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s ease-in-out;
+}
+.del:hover{
+    background-color: #000000;
+}
+.comment-card{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    
+   
+    
+}
+.comment-title_date{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    word-wrap: break-word;
+    gap: 0.5rem;
+
+}
+.comment-title_date > h3{
+    font-size: 20px;
+    font-weight: 700;
+}
+.comment-title_date > h5{
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+}
+.comcontent{
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+    
+}

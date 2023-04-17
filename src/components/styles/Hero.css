@@ -1,0 +1,21 @@
+.hero-section{
+    background: url(../../assets/hero.jpg) no-repeat center center/cover;
+    height: 350px;
+    position: relative;
+    z-index: -100;
+}
+.hero-text{
+    position:relative;
+    top: 6rem;
+    color: #f7f7f7;
+    padding: 1rem 3rem;
+}
+.hero-text > h1{
+    font-weight:700;
+    font-size: 38px;
+}
+.hero-text > p{
+    font-weight:400;
+    font-size: 28px;
+    line-height: 30px;
+}

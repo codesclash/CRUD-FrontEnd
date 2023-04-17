@@ -1,0 +1,38 @@
+.comment-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    margin-bottom: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    padding: 1rem;
+    border-radius: 10px;
+}
+.comment-container > h3{
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+.form-comments{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 1rem;
+}
+.input{
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 16px;
+    font-weight: 400;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+}
+.comment-error{
+    color: red;
+    font-size: 14px;
+    font-weight: 400;
+    height: 10px;
+}
