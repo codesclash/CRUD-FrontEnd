@@ -8,6 +8,7 @@ import {
 import { connect } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 //-----------------------------------------------------------MUI
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -15,9 +16,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Typography from "@mui/material/Typography";
-import { createTheme,ThemeProvider } from '@mui/material/styles';
-import purple from '@mui/material/colors/purple';
-
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import purple from "@mui/material/colors/purple";
 
 const theme = createTheme({
   palette: {
@@ -104,11 +104,18 @@ export class CreatePost extends Component {
     setTimeout(() => {
       window.location.href = "/";
     }, 1000);
-
   };
 
-  notify = (successMessage) => toast.success(successMessage, { theme: "dark" });
-  notifyError = (successMessage) => toast.error(successMessage);
+  notify = (successMessage) =>
+    toast.success(successMessage, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      theme: "dark",
+    });
+  notifyError = (successMessage) =>
+    toast.error(successMessage, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      theme: "dark",
+    });
 
   render() {
     const { title, content, author } = this.state;
@@ -123,6 +130,7 @@ export class CreatePost extends Component {
 
     return (
       <>
+      <div className="create-post-main" ><Link to={"/"}><button className="go-back-home"> &lt; Click Here To Go To Home</button></Link>
         <div className="create-post">
           <div className="preview-container">
             <h1> Image Preview</h1>
@@ -171,7 +179,8 @@ export class CreatePost extends Component {
               />
               {this.state.imgLink.length <= 0 ? (
                 <div className="error">Please Provide a Valid https link</div>
-              ) : this.state.imgLink.includes("https") && this.state.imgLink.length >10 ? (
+              ) : this.state.imgLink.includes("https") &&
+                this.state.imgLink.length > 10 ? (
                 <div className="error"></div>
               ) : (
                 <div className="error">Please Provide a Valid https link</div>
@@ -225,24 +234,25 @@ export class CreatePost extends Component {
               </div>
             </div>
           </div>
-          <ThemeProvider theme = {theme}>
-          <BootstrapDialog
-            aria-labelledby="customized-dialog-title"
-            open={this.state.confirmDialog}
-          >
-            <DialogContent color="primary" dividers>
-              <Typography gutterBottom>
-                Are you sure you want to create this post?
-              </Typography>
-            </DialogContent>
-            <DialogActions >
-              <Button onClick={this.handleClose}>Cancel</Button>
-              <Button onClick={this.handleSubmit} autoFocus>
-                Create Post
-              </Button>
-            </DialogActions>
-          </BootstrapDialog>
+          <ThemeProvider theme={theme}>
+            <BootstrapDialog
+              aria-labelledby="customized-dialog-title"
+              open={this.state.confirmDialog}
+            >
+              <DialogContent color="primary" dividers>
+                <Typography gutterBottom>
+                  Are you sure you want to create this post?
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose}>Cancel</Button>
+                <Button onClick={this.handleSubmit} autoFocus>
+                  Create Post
+                </Button>
+              </DialogActions>
+            </BootstrapDialog>
           </ThemeProvider>
+        </div>
         </div>
         <ToastContainer />
       </>

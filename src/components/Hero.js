@@ -6,7 +6,8 @@ export class Hero extends Component {
     return (
       <div className="hero-section">
         <div className="hero-text">
-          <h1>Welcome !</h1>
+          <h1>Welcome !&nbsp;</h1>
+          <br/>
           <p>
             Here you can explore different posts or even create own posts...{" "}
           </p>

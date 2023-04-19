@@ -11,19 +11,38 @@ import { Loading } from "./Loading";
 export class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      page: 1,
+    };
   }
   componentDidMount() {
-    this.props.fetchPosts();
+    console.log("component mounted")
+    window.addEventListener("scroll", this.handInfiniteScroll);
+    this.fetchPosts();
     window.scrollTo(0, 0);
-    console.log("a", this.props.postData)
   }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handInfiniteScroll);
+  }
+
+  handInfiniteScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 0.05 >=
+        document.documentElement.scrollHeight
+    ){
+      this.fetchPosts();
+    }
+  };
+  fetchPosts(){
+    console.log(this.state.page)
+    this.props.fetchPosts(this.state.page);
+    this.setState({ page: this.state.page + 1 });
+  }
+
 
   render() {
 
-    if (this.props.isLoading) {
-      return <Loading />;
-    }
     if (this.props.error) {
       return <Error error={this.props.error} />;
     }
@@ -33,18 +52,14 @@ export class Home extends Component {
         <div className="home-container">
           <Hero />
           {this.props.postData && this.props.postData.length === 0 ? (
-            <div className="no-post">No Posts Available. Create a new post </div>
+            <div className="no-post">
+              No Posts Available. Create a new post{" "}
+            </div>
           ) : (
             <div className="cards">
               {this.props.postData &&
                 this.props.postData
-                  .reverse()
-                  .map((post) => (
-                    <Card
-                      key={post._id}
-                      post={post}
-                    />
-                  ))}
+                  .map((post) => <Card key={post._id} post={post} />)}
             </div>
           )}
         </div>
@@ -61,7 +76,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchPosts: () => dispatch(fetchPosts()),
+    fetchPosts: (page) => dispatch(fetchPosts(page)),
     deletePost: (id) => dispatch(deletePost(id)),
   };
 };

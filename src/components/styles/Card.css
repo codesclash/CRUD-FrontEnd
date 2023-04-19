@@ -4,6 +4,7 @@
     position: relative;
     justify-content: flex-start;
     max-width: 330px;
+    width: 330px;
     min-height: 450px;
     border-radius: 20px;
     background-color: #ffffff;
@@ -19,10 +20,9 @@
 }
 .card-img{
     width: 100%;
-    height: auto;
     max-height: 225px;
     min-height: 225px;
-    
+    position: relative;
 }
 .card-img > img{
     object-fit: cover;
@@ -102,4 +102,72 @@
 .info{
     font-weight: 400;
     margin-top: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .card-container{
+        max-width: 300px;
+        width: 300px;
+        min-height: 400px;
+    }
+    .card-img{
+        max-height: 200px;
+        min-height: 200px;
+    }
+    .card-title_des > h1{
+        font-size: 1.2rem;
+    }
+    .card-title_des > p{
+        font-size: 0.9rem;
+    }
+    .card-btns{
+        bottom: 16px;
+    }
+    .card-btn ,.card-btn-del {
+        width: 60px;
+        font-size: 12px;
+        padding: 0.4rem 0.6rem;
+    }
+    .card-info{
+        bottom: 60px;
+        font-size: 0.8rem;
+    }
+
+    
+}
+@media screen and (max-width:425px) {
+    .card-container{
+        max-width: 290px;
+        width: 280px;
+        min-height: 400px;
+    }
+    .card-img{
+        max-height: 180px;
+        min-height: 180px;
+    }
+    .card-img > img{
+        object-fit: cover;
+        width: 100%;
+        max-height: 180px;
+    }
+    .card-title_des > h1{
+        font-size: 1.2rem;
+    }
+    .card-title_des > p{
+        font-size: 0.8rem;
+    }
+    .card-btns{
+        bottom: 16px;
+    }
+    .card-btn ,.card-btn-del {
+        width: 60px;
+        font-size: 12px;
+        padding: 0.4rem 0.6rem;
+    }
+    .card-info{
+        bottom: 70px;
+        font-size: 0.8rem;
+    }
+    
+    
 }

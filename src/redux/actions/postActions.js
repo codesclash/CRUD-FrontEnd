@@ -44,19 +44,23 @@ export const fetchPostFailure = (error) => {
   };
 };
 
-export const fetchPosts = () => {
+export const fetchPosts = (page) => {
   return (dispatch) => {
     dispatch(fetchPostRequest());
     axios
-      .get("http://localhost:4000/posts/")
+      .get(`http://localhost:4000/posts/home/${page}`)
       .then((response) => {
+        console.log(response.data)
         const posts = response.data;
         dispatch(fetchPostSuccess(posts));
       })
       .catch((error) => {
         const errorMsg = error.error;
         dispatch(fetchPostFailure(errorMsg));
-        toast.error(errorMsg,{theme:"dark"});
+        toast.error(errorMsg, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: "dark",
+        });
       });
   };
 };
@@ -87,12 +91,16 @@ export const fetchSinglePost = (id) => {
       .get(`http://localhost:4000/posts/${id}`)
       .then(async (response) => {
         const post = await response.data;
+        console.log(post)
         await dispatch(fetchSinglePostSuccess(post));
       })
       .catch((error) => {
         const errorMsg = error.error;
         dispatch(fetchSinglePostError(errorMsg));
-        toast.error(errorMsg,{theme:"dark"});
+        toast.error(errorMsg, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: "dark",
+        });
       });
   };
 };
@@ -186,12 +194,15 @@ export const deletePost = (id) => {
     axios
       .delete(`http://localhost:4000/posts/delete/${id}`)
       .then((response) => {
-        const {postId,message} = response.data;
+        const { postId, message } = response.data;
         dispatch({
           type: DELETE_POST,
-          payload: {postId,message},
+          payload: { postId, message },
         });
-        toast.success(message,{theme:"dark"});
+        toast.success(message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: "dark",
+        });
       })
       .catch((error) => {
         const errorMsg = error.error;
@@ -199,7 +210,10 @@ export const deletePost = (id) => {
           type: DELETE_POST_ERROR,
           payload: errorMsg,
         });
-        toast.error(errorMsg,{theme:"dark"});
+        toast.error(errorMsg, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: "dark",
+        });
       });
   };
 };
@@ -217,7 +231,10 @@ export const deleteComment = (postId, commentId) => {
           payload: response.data.commentId,
         });
         const successMessage = response.data.message;
-        toast.success(successMessage,{theme:"dark"});
+        toast.success(successMessage, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: "dark",
+        });
       })
       .catch((error) => {
         const errorMsg = error.error;
@@ -225,7 +242,10 @@ export const deleteComment = (postId, commentId) => {
           type: DELETE_POST_ERROR,
           payload: errorMsg,
         });
-        toast.error(errorMsg,{theme:"dark"});
+        toast.error(errorMsg, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: "dark",
+        });
       });
   };
 };
@@ -256,14 +276,19 @@ export const createComment = (postId, comment) => {
       .then((response) => {
         dispatch(createCommentSuccess(response.data));
         setTimeout(() => {
-        toast.success(response.data.message,{theme:"dark"});
+          toast.success(response.data.message, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            theme: "dark",
+          });
         }, 700);
       })
       .catch((error) => {
-        const errorMsg = error.error
-        toast.error(`${errorMsg}`,{theme:"dark"});
+        const errorMsg = error.error;
+        toast.error(`${errorMsg}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: "dark",
+        });
         dispatch(createCommentError(errorMsg));
       });
   };
 };
-

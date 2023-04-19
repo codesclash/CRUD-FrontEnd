@@ -5,18 +5,20 @@ import CommentCard from "../../components/CommentCard/index";
 import AddComment from "../../components/AddComment";
 import { Error } from "../Error";
 import { Loading } from "../Loading";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 export class ViewPost extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
+   
   }
-  getPostId = () =>{
+  
+  getPostId = () => {
     return window.location.pathname.split("/")[2];
-  }
+  };
 
   componentDidMount() {
     this.props.toggleBtn();
@@ -29,11 +31,10 @@ export class ViewPost extends Component {
     this.props.toggleBtn();
     this.props.toggleEditBtn();
   }
-  
 
   render() {
-
-    const{title, content, author, imgLink,datePublished} = this.props.singlepostdata;
+    const { title, content, author, imgLink, datePublished } =
+      this.props.singlePostData;
 
     if (this.props.isLoading) {
       return <Loading />;
@@ -42,9 +43,10 @@ export class ViewPost extends Component {
       return <Error error={this.props.error} />;
     }
 
-    return (  
+    return (
+      <>
       <div className="main-container">
-        <ToastContainer />
+        <div ><Link to={"/"}><button className="go-back-home"> &lt; Click Here To Go To Home</button></Link></div>
         <div className="post-container">
           <div className="post-title_updatebtn">
             <h1>{title}</h1>
@@ -57,31 +59,36 @@ export class ViewPost extends Component {
               Author:<span className="info"> {author}</span>
             </h5>
             <h5>
-              Date Published:<span className="info"> {new Date(datePublished).toLocaleDateString()}</span>
+              Date Published:
+              <span className="info">
+                {" "}
+                {new Date(datePublished).toLocaleDateString()}
+              </span>
             </h5>
           </div>
           <div className="post-content">
-            <p>
-              {content}
-            </p>
+            <p>{content}</p>
           </div>
         </div>
         <div className="comments-container">
-          <h1>Comments</h1>
+          <h1 ref={this.buttonRef}>Comments</h1>
           <div className="comment">
             <AddComment />
-         {
-          this.props.singlePostComment && this.props.singlePostComment.map((comment) => (
-            <CommentCard key={comment._id}  postId={this.getPostId()} comment={comment}  />
-         ))
-         }
+            {this.props.singlePostComment &&
+              this.props.singlePostComment.map((comment) => (
+                <CommentCard
+                  key={comment._id}
+                  postId={this.getPostId()}
+                  comment={comment}
+                />
+              ))}
           </div>
         </div>
       </div>
+      <ToastContainer />
+      </>
     );
   }
 }
-
-
 
 export default ViewPost;

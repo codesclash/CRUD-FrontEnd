@@ -3,6 +3,7 @@
     height: 350px;
     position: relative;
     z-index: -100;
+    object-fit: cover;
 }
 .hero-text{
     position:relative;
@@ -18,4 +19,33 @@
     font-weight:400;
     font-size: 28px;
     line-height: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    .hero-text{
+        top: 6rem;
+        padding: 1rem 1rem;
+    }
+    .hero-text > h1{
+        font-size: 30px;
+    }
+    .hero-text > p{
+        font-size: 22px;
+        line-height: 24px;
+    }
+    
+}
+
+@media screen and (max-width: 425px){
+    .hero-text{
+        top: 6rem;
+        padding: 1rem 1rem;
+    }
+    .hero-text > h1{
+        font-size: 28px;
+    }
+    .hero-text > p{
+        font-size: 18px;
+        line-height: 20px;
+    }
 }

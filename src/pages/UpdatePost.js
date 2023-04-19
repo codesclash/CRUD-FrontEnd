@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "./Loading";
-
+import { Link } from "react-router-dom";
 
 //-----------------------------------------------------------MUI
 import Button from "@mui/material/Button";
@@ -19,8 +19,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Typography from "@mui/material/Typography";
-import { createTheme,ThemeProvider } from '@mui/material/styles';
-import purple from '@mui/material/colors/purple';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import purple from "@mui/material/colors/purple";
 
 const theme = createTheme({
   palette: {
@@ -36,7 +36,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-
 export class UpdatePost extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +45,7 @@ export class UpdatePost extends Component {
       imgLink: "",
       author: "",
       confirmDialog: false,
+      dataLoading: true
     };
   }
 
@@ -60,9 +60,7 @@ export class UpdatePost extends Component {
     });
   };
 
-
   getPostId = () => {
-    console.log("postid", window.location.pathname.split("/")[3]);
     return window.location.pathname.split("/")[3];
   };
 
@@ -73,10 +71,11 @@ export class UpdatePost extends Component {
     this.props.fetchSinglePost(this.getPostId());
     setTimeout(() => {
       this.setState({
-        title: this.props.singlepostdata.title,
-        content: this.props.singlepostdata.content,
-        imgLink: this.props.singlepostdata.imgLink,
-        author: this.props.singlepostdata.author,
+        title: this.props.singlePostData.title,
+        content: this.props.singlePostData.content,
+        imgLink: this.props.singlePostData.imgLink,
+        author: this.props.singlePostData.author,
+        dataLoading : false
       });
     }, 1000);
   }
@@ -116,29 +115,24 @@ export class UpdatePost extends Component {
     }, 200);
 
     this.setState({
-      title: "",
-      content: "",
-      imgLink: "",
-      author: "",
+
       confirmDialog: false,
     });
-
 
     setTimeout(() => {
       window.location.href = "/";
     }, 500);
-
   };
 
-  notify = (successMessage) => toast.success(successMessage, { theme: "dark" });
-  notifyError = (successMessage) => toast.error(successMessage);
+  notify = (successMessage) => toast.success(successMessage, {position: toast.POSITION.BOTTOM_RIGHT, theme: "dark" });
+  notifyError = (error) => toast.error(error, {position: toast.POSITION.BOTTOM_RIGHT, theme: "dark" });
 
   render() {
     const checkIfSame = !(
-      this.state.title === this.props.singlepostdata.title &&
-      this.state.content === this.props.singlepostdata.content &&
-      this.state.imgLink === this.props.singlepostdata.imgLink &&
-      this.state.author === this.props.singlepostdata.author
+      this.state.title === this.props.singlePostData.title &&
+      this.state.content === this.props.singlePostData.content &&
+      this.state.imgLink === this.props.singlePostData.imgLink &&
+      this.state.author === this.props.singlePostData.author
     );
 
     const { title, content, author, imgLink } = this.state;
@@ -149,132 +143,147 @@ export class UpdatePost extends Component {
       content.length > 11 &&
       author &&
       author.length > 5 &&
-      checkIfSame && imgLink.length > 10 && imgLink.includes("https")
+      checkIfSame &&
+      imgLink.length > 10 &&
+      imgLink.includes("https")
         ? false
         : true;
 
-    return (
+      if(this.state.dataLoading){
+        return (
+            <>
+                <Loading />
+            </>
+        )
+      }else 
+      return (
       <>
-      <div className="create-post">
-        
-        <div className="preview-container">
-          <h1> Image Preview</h1>
-          <div className="preview">
-            <img className="previewImg" src={
+        <div className="create-post-main" ><Link to={"/"}><button className="go-back-home"> &lt; Click Here To Go To Home</button></Link>
+        <div className="create-post">
+          <div className="preview-container">
+            <h1> Image Preview</h1>
+            <div className="preview">
+              <img
+                className="previewImg"
+                src={
                   !this.state.imgLink.includes("https")
                     ? "https://jkfenner.com/wp-content/uploads/2019/11/default.jpg"
                     : this.state.imgLink
-                } alt="" />
+                }
+                alt=""
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="form-container">
-          <h1>Update Post</h1>
-          <div className="form-update-create">
-            <label className="label" htmlFor="title">
-              Title*
-            </label>
-            <input
-              className="input"
-              onChange={this.handleInputChange}
-              value={title}
-              type="text"
-              name="title"
-              id="title"
-            />
-            {this.state.title.length < 5 ? (
-              <div className="error">Enter Atleast 5 Characters </div>
-            ) : (
-              <div className="error"></div>
-            )}
+          <div className="form-container">
+            <h1>Update Post</h1>
+            <div className="form-update-create">
+              <label className="label" htmlFor="title">
+                Title*
+              </label>
+              <input
+                className="input"
+                onChange={this.handleInputChange}
+                value={title}
+                type="text"
+                name="title"
+                id="title"
+              />
+              {this.state.title.length < 5 ? (
+                <div className="error">Enter Atleast 5 Characters </div>
+              ) : (
+                <div className="error"></div>
+              )}
 
-            <label className="label" htmlFor="imaLink">
-              Image*
-            </label>
-            <input
-              value={imgLink}
-              onChange={this.handleInputChange}
-              className="input img"
-              type="text"
-              name="imgLink"
-              id="imgLink"
-            />
-            {this.state.imgLink.length <= 0 ? (
+              <label className="label" htmlFor="imaLink">
+                Image*
+              </label>
+              <input
+                value={imgLink}
+                onChange={this.handleInputChange}
+                className="input img"
+                type="text"
+                name="imgLink"
+                id="imgLink"
+              />
+              {this.state.imgLink.length <= 0 ? (
                 <div className="error">Please Provide a Valid https link</div>
-              ) : this.state.imgLink.includes("https") && this.state.imgLink.length >10 ? (
+              ) : this.state.imgLink.includes("https") &&
+                this.state.imgLink.length > 10 ? (
                 <div className="error"></div>
               ) : (
                 <div className="error">Please Provide a Valid https link</div>
               )}
-            <label className="label" htmlFor="content">
-              Description*
-            </label>
-            <textarea
-              onChange={this.handleInputChange}
-              className="input"
-              value={content}
-              name="content"
-              id="content"
-              cols="80"
-              rows="10"
-            ></textarea>
-            {this.state.content.length < 12 ? (
-              <div className="error">Enter Atleast 12 Characters </div>
-            ) : (
-              <div className="error"></div>
-            )}
-            <label className="label" htmlFor="author">
-              Author*
-            </label>
-            <input
-              value={author}
-              onChange={this.handleInputChange}
-              className="input"
-              type="text"
-              name="author"
-              id="author"
-            />
-            {this.state.author.length < 6 ? (
-              <div className="error">Enter Atleast 6 Characters </div>
-            ) : (
-              <div className="error"></div>
-            )}
-            {!createPostBtnDisabled ? (
-              <button
-                className="btn"
-                onClick={this.handleClickOpen}
-                id="submitbtn"
-              >
-                {this.props.isLoading ? "Wait..." : "Update Post"}
-              </button>
-            ) : (
-              <button className="disabledbtn" >Update Post</button>
-            )}
-            <div className="info">
-              <p>*Required Fields</p>
+              <label className="label" htmlFor="content">
+                Description*
+              </label>
+              <textarea
+                onChange={this.handleInputChange}
+                className="input"
+                value={content}
+                name="content"
+                id="content"
+                cols="80"
+                rows="10"
+              ></textarea>
+              {this.state.content.length < 12 ? (
+                <div className="error">Enter Atleast 12 Characters </div>
+              ) : (
+                <div className="error"></div>
+              )}
+              <label className="label" htmlFor="author">
+                Author*
+              </label>
+              <input
+                value={author}
+                onChange={this.handleInputChange}
+                className="input"
+                type="text"
+                name="author"
+                id="author"
+              />
+              {this.state.author.length < 6 ? (
+                <div className="error">Enter Atleast 6 Characters </div>
+              ) : (
+                <div className="error"></div>
+              )}
+              {!createPostBtnDisabled ? (
+                <button
+                  className="btn"
+                  onClick={this.handleClickOpen}
+                  id="submitbtn"
+                >
+                  {this.props.isLoading ? "Wait..." : "Update Post"}
+                </button>
+              ) : (
+                <button className="disabledbtn">Update Post</button>
+              )}
+              <div className="info">
+                <p>*Required Fields</p>
+              </div>
             </div>
           </div>
-        </div>
-        <ThemeProvider theme = {theme}>
-          <BootstrapDialog
-            aria-labelledby="customized-dialog-title"
-            open={this.state.confirmDialog}
-          >
-            <DialogContent  color="primary" dividers>
-              <Typography gutterBottom>
-                Are you sure you want to update this post?
-              </Typography>
-            </DialogContent>
-            <DialogActions >
-              <Button onClick={this.handleClose}>Cancel</Button>
-              <Button onClick={this.handleSubmit} autoFocus>
-                Update
-              </Button>
-            </DialogActions>
-          </BootstrapDialog>
+          <ThemeProvider theme={theme}>
+            <BootstrapDialog
+              aria-labelledby="customized-dialog-title"
+              open={this.state.confirmDialog}
+            >
+              <DialogContent color="primary" dividers>
+                <Typography gutterBottom>
+                  Are you sure you want to update this post?
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose}>Cancel</Button>
+                <Button onClick={this.handleSubmit} autoFocus>
+                  Update
+                </Button>
+              </DialogActions>
+            </BootstrapDialog>
           </ThemeProvider>
-      </div>
-     <ToastContainer />
+        </div>
+        </div>
+        <ToastContainer />
       </>
     );
   }
@@ -283,7 +292,7 @@ export class UpdatePost extends Component {
 const mapStateToProps = (state) => ({
   successMessage: state.successMessage,
   error: state.error,
-  singlepostdata: state.singlepostdata,
+  singlePostData: state.singlePostData,
   isLoading: state.isLoading,
 });
 

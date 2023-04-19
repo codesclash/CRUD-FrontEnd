@@ -10,9 +10,8 @@ export class Navbar extends Component {
   }
   getpostid = (id) => {
     return window.location.pathname.split("/")[2];
-  }
+  };
   render() {
-
     return (
       <>
         <div className="nav-items">

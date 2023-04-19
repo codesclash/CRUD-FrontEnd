@@ -36,3 +36,29 @@
 .hidden{
     display: none;
 }
+
+@media screen and (max-width: 425px){
+   .nav-items{
+    padding: 0 1rem;
+   }
+   .logo{
+    height: 50px;
+   }
+   .nav-text{
+    padding: 0.5rem 0.5rem;
+    font-size: 12px;
+   }
+}
+@media screen and (max-width: 768px) {
+    .nav-items{
+        padding: 0 1rem;
+    }
+    .logo{
+        height: 60px;
+    }
+    .nav-text{
+        padding: 0.5rem 0.5rem;
+        font-size: 14px;
+    }
+    
+}

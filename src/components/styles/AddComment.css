@@ -36,3 +36,15 @@
     font-weight: 400;
     height: 10px;
 }
+@media screen and (max-width:425px) {
+    .comment-container{
+        padding: 1rem 1rem;
+    }
+    .comment-container  > h3{
+        font-size: 16px;
+    }
+    .input{
+        font-size: 14px;
+    }
+    
+}

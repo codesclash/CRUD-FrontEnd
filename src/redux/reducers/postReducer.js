@@ -25,7 +25,7 @@ const initialState = {
   posts: [],
   isLoading: false,
   error: "",
-  singlepostdata: {},
+  singlePostData: {},
   successMessage: "",
   singlePostComment: [],
 };
@@ -38,103 +38,108 @@ const postReducer = (state = initialState, action) => {
         isLoading: true,
       };
 
-    case FETCH_POSTS_SUCCESS:{
-      const { posts } = state;
+    case FETCH_POSTS_SUCCESS: {
       let { payload } = action;
       let newPosts = payload;
       return {
         ...state,
-        posts: newPosts,
+        posts: [...state.posts,...newPosts],
         isLoading: false,
         error: "",
       };
     }
-    case FETCH_POSTS_ERROR:{
+    case FETCH_POSTS_ERROR: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
         posts: [],
-        error: action.payload,
+        error: payload,
       };
     }
-    case FETCH_SINGLE_POST_REQUEST:{
+    case FETCH_SINGLE_POST_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case FETCH_SINGLE_POST_SUCCESS:{
+    case FETCH_SINGLE_POST_SUCCESS: {
       let { payload } = action;
       let newSinglePostComment = payload.comments;
 
       return {
         ...state,
-        singlepostdata: payload,
+        singlePostData: payload,
         singlePostComment: newSinglePostComment,
         isLoading: false,
         error: "",
       };
     }
-    case FETCH_SINGLE_POST_ERROR:{
+    case FETCH_SINGLE_POST_ERROR: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
-        singlepostdata: {},
-        error: action.payload,
+        singlePostData: {},
+        error: payload,
       };
     }
-    case CREATE_POST_REQUEST:{
+    case CREATE_POST_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case CREATE_POST_SUCCESS:{
+    case CREATE_POST_SUCCESS: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
         error: "",
-        successMessage: action.payload,
+        successMessage: payload,
       };
     }
-    case CREATE_POST_ERROR:{
+    case CREATE_POST_ERROR: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        error: payload,
       };
     }
-    case RESET_MESSAGE:{
+    case RESET_MESSAGE: {
       return {
         ...state,
         successMessage: "",
       };
     }
-    case RESET_ERROR:{
+    case RESET_ERROR: {
       return {
         ...state,
         error: "",
       };
     }
-    case UPDATE_POST_REQUEST:{
+    case UPDATE_POST_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case UPDATE_POST_SUCCESS:{
+    case UPDATE_POST_SUCCESS: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
         error: "",
-        successMessage: action.payload,
+        successMessage: payload,
       };
     }
-    case UPDATE_POST_ERROR:{
+    case UPDATE_POST_ERROR: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        error: payload,
       };
     }
     case DELETE_POST: {
@@ -142,46 +147,48 @@ const postReducer = (state = initialState, action) => {
       let postAvailable = posts.filter(
         (post) => post._id !== action.payload.postId
       );
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
         posts: postAvailable,
-        successMessage: action.payload.successMessage,
+        successMessage: payload.successMessage,
         error: "",
       };
     }
-    case DELETE_POST_ERROR:{
+    case DELETE_POST_ERROR: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        error: payload,
       };
     }
-    case DELETE_COMMENT:{
+    case DELETE_COMMENT: {
       let { singlePostComment } = state;
       let commentAvailable = singlePostComment.filter(
         (comment) => comment._id !== action.payload
       );
       let updatedComment = commentAvailable;
-      console.log(updatedComment)
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
         singlePostComment: updatedComment,
-        successMessage: action.payload,
+        successMessage: payload,
         error: "",
       };
     }
-    case CREATE_COMMENT_REQUEST:{
+    case CREATE_COMMENT_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case CREATE_COMMENT_SUCCESS:{
-      const {message,newComment}= action.payload;
-      const {singlePostComment}=state;
-      let newComments=[...singlePostComment,newComment]
+    case CREATE_COMMENT_SUCCESS: {
+      const { message, newComment } = action.payload;
+      const { singlePostComment } = state;
+      let newComments = [...singlePostComment, newComment];
       return {
         ...state,
         isLoading: false,
@@ -190,11 +197,12 @@ const postReducer = (state = initialState, action) => {
         successMessage: message,
       };
     }
-    case CREATE_COMMENT_ERROR:{
+    case CREATE_COMMENT_ERROR: {
+      let { payload } = action;
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        error: payload,
       };
     }
 
