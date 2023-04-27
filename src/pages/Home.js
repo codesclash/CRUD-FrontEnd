@@ -16,7 +16,6 @@ export class Home extends Component {
     };
   }
   componentDidMount() {
-    console.log("component mounted")
     window.addEventListener("scroll", this.handInfiniteScroll);
     this.fetchPosts();
     window.scrollTo(0, 0);
